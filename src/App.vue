@@ -114,7 +114,7 @@ onUnmounted(() => {
 
   <div class="content-layer">
     <h1 v-if="!yesClicked && !isWaitingState" class="question-text">
-      Ты пойдешь со мной на День Святого Валентина? 💕
+      Любимая моя Линочка, ты пойдешь со мной на День Святого Валентина? 💕
     </h1>
 
     <h1 v-if="yesClicked && !isWaitingState" class="celebration-text">
