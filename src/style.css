@@ -1,0 +1,248 @@
+:root {
+  /* Pastel Color Palette */
+  --bg-primary: #FFE4EC;
+  --bg-gradient: linear-gradient(135deg, #FFE4EC 0%, #FFF0F5 50%, #FFE4EC 100%);
+
+  --bunny-body: #FFF8F0;
+  --bunny-ear-inner: #FFB6C1;
+  --bunny-blush: #FF9AAB;
+  --bunny-nose: #FF8FA3;
+
+  --btn-yes: #98D8AA;
+  --btn-yes-hover: #7BC89C;
+  --btn-no: #FF6B6B;
+  --btn-no-hover: #FF5252;
+
+  --text-primary: #5D4E6D;
+  --text-question: #8B6B8D;
+
+  --heart-pink: #fca8d2;
+  --heart-deep: #87CEEB;
+  --tear-blue: #87CEEB;
+
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, system-ui;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: #f5d9e1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFB6C1'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-text {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  color: var(--text-question);
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.5);
+  animation: float 3s ease-in-out infinite;
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+.celebration-text {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--heart-deep);
+  text-align: center;
+  animation: bounce 0.6s ease-in-out infinite;
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.waiting-text {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  color: var(--text-question);
+  text-align: center;
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+}
+
+/* Button styles */
+.buttons-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.valentine-btn {
+  --btn-scale: 1;
+  position: absolute;
+  padding: 1rem 2.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-family: inherit;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.valentine-btn.yes {
+  background: var(--btn-yes);
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.valentine-btn.yes:hover {
+  background: var(--btn-yes-hover);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(152, 216, 170, 0.4);
+}
+
+.valentine-btn.no {
+  background: var(--btn-no);
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.valentine-btn.no:hover {
+  background: var(--btn-no-hover);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Desktop layout */
+@media (min-width: 769px) {
+  .valentine-btn.yes {
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%) scale(var(--btn-scale));
+  }
+
+  .valentine-btn.yes:hover {
+    transform: translateY(-50%) scale(calc(var(--btn-scale) * 1.05));
+  }
+
+  .valentine-btn.no {
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%) scale(var(--btn-scale));
+  }
+
+  .valentine-btn.no:hover {
+    transform: translateY(-50%) scale(calc(var(--btn-scale) * 1.05));
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .valentine-btn.yes {
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%) scale(var(--btn-scale));
+  }
+
+  .valentine-btn.yes:hover {
+    transform: translateX(-50%) scale(calc(var(--btn-scale) * 1.05));
+  }
+
+  .valentine-btn.no {
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%) scale(var(--btn-scale));
+  }
+
+  .valentine-btn.no:hover {
+    transform: translateX(-50%) scale(calc(var(--btn-scale) * 1.05));
+  }
+}
+
+/* Canvas */
+.bunny-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.content-layer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Confetti container */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
