@@ -225,26 +225,31 @@ export function useBunny() {
     bunnyGroup.add(rightEyeGroup)
   }
 
-  const createBlush = () => {
-    const blushMat = new THREE.MeshBasicMaterial({
-      color: colors.blush,
-      transparent: true,
-      opacity: 0.45
-    })
+const createBlush = () => {
+  const blushMat = new THREE.MeshBasicMaterial({
+    color: colors.blush,
+    transparent: true,
+    opacity: 0.45,
+    side: THREE.DoubleSide
+  })
 
-    // Oval blush marks
-    const blushGeom = new THREE.PlaneGeometry(0.32, 0.1)
+  // Start with a circle
+  const blushGeom = new THREE.CircleGeometry(0.12, 32)
 
-    leftBlush = new THREE.Mesh(blushGeom, blushMat)
-    leftBlush.position.set(-0.6, 0, 1.25)
-    leftBlush.rotation.y = -0.35
-    bunnyGroup.add(leftBlush)
+  // LEFT BLUSH
+  leftBlush = new THREE.Mesh(blushGeom, blushMat)
+  leftBlush.scale.set(1.6, 0.7, 1) // OVAL SHAPE 💕
+  leftBlush.position.set(-0.6, 0, 1.27)
+  leftBlush.rotation.y = -0.35
+  bunnyGroup.add(leftBlush)
 
-    rightBlush = new THREE.Mesh(blushGeom, blushMat)
-    rightBlush.position.set(0.6, 0, 1.25)
-    rightBlush.rotation.y = 0.35
-    bunnyGroup.add(rightBlush)
-  }
+  // RIGHT BLUSH
+  rightBlush = new THREE.Mesh(blushGeom, blushMat)
+  rightBlush.scale.set(1.6, 0.7, 1)
+  rightBlush.position.set(0.6, 0, 1.27)
+  rightBlush.rotation.y = 0.35
+  bunnyGroup.add(rightBlush)
+}
 
   const createMouths = () => {
     const mouthMat = createColorMaterial(colors.pupil)
@@ -415,6 +420,8 @@ export function useBunny() {
     // Position bouquet outside the body, held in front
     bouquetGroup.position.set(-1.1, -0.7, 0.9)
     bouquetGroup.rotation.z = 0.4
+    bouquetGroup.rotation.x = 1.0
+    bouquetGroup.rotation.y = 0.2
     bouquetGroup.visible = false
     bunnyGroup.add(bouquetGroup)
   }
@@ -446,40 +453,55 @@ export function useBunny() {
     bunnyGroup.add(peaceFingers)
   }
 
-  const createClosedEyes = () => {
-    closedEyeLines.forEach(line => bunnyGroup.remove(line))
-    closedEyeLines = []
+const createClosedEyes = () => {
+  closedEyeLines.forEach(e => bunnyGroup.remove(e))
+  closedEyeLines = []
 
-    const lineMat = new THREE.LineBasicMaterial({ color: colors.pupil, linewidth: 3 })
+  const eyeMat = new THREE.MeshBasicMaterial({ color: colors.pupil })
 
-    // Left ^_^ eye
-    const leftPoints = [
-      new THREE.Vector3(-0.5, 0.15, 1.32),
-      new THREE.Vector3(-0.4, 0.28, 1.35),
-      new THREE.Vector3(-0.3, 0.15, 1.32)
-    ]
-    const leftGeom = new THREE.BufferGeometry().setFromPoints(leftPoints)
-    const leftLine = new THREE.Line(leftGeom, lineMat)
-    bunnyGroup.add(leftLine)
-    closedEyeLines.push(leftLine)
+  const arcWidth = 0.28
+  const arcHeight = 0.09
+  const thickness = 0.045
 
-    // Right ^_^ eye
-    const rightPoints = [
-      new THREE.Vector3(0.3, 0.15, 1.32),
-      new THREE.Vector3(0.4, 0.28, 1.35),
-      new THREE.Vector3(0.5, 0.15, 1.32)
-    ]
-    const rightGeom = new THREE.BufferGeometry().setFromPoints(rightPoints)
-    const rightLine = new THREE.Line(rightGeom, lineMat)
-    bunnyGroup.add(rightLine)
-    closedEyeLines.push(rightLine)
-  }
+  const segments = 24
+
+  // LEFT EYE
+  const leftCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.55 - arcWidth / 2, 0.17, 1.32),
+    new THREE.Vector3(-0.55, 0.17 + arcHeight, 1.34),
+    new THREE.Vector3(-0.55 + arcWidth / 2, 0.17, 1.32)
+  ])
+
+  const leftEye = new THREE.Mesh(
+    new THREE.TubeGeometry(leftCurve, segments, thickness, 14, false),
+    eyeMat
+  )
+
+  bunnyGroup.add(leftEye)
+  closedEyeLines.push(leftEye)
+
+  // RIGHT EYE
+  const rightCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0.55 - arcWidth / 2, 0.17, 1.32),
+    new THREE.Vector3(0.55, 0.17 + arcHeight, 1.34),
+    new THREE.Vector3(0.55 + arcWidth / 2, 0.17, 1.32)
+  ])
+
+  const rightEye = new THREE.Mesh(
+    new THREE.TubeGeometry(rightCurve, segments, thickness, 14, false),
+    eyeMat
+  )
+
+  bunnyGroup.add(rightEye)
+  closedEyeLines.push(rightEye)
+}
+
 
   const createSadEyebrows = () => {
     sadEyebrows.forEach(line => bunnyGroup.remove(line))
     sadEyebrows = []
 
-    const lineMat = new THREE.LineBasicMaterial({ color: colors.pupil, linewidth: 2 })
+    const lineMat = new THREE.LineBasicMaterial({ color: colors.pupil, linewidth: 50 })
 
     // Sad eyebrows droop DOWN on outer edges (not up like angry)
     // Left eyebrow: inner edge higher, outer edge lower
