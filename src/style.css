@@ -68,7 +68,8 @@ body {
   bottom: 18%;
   left: 50%;
   transform: translateX(-50%);
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  width: 80vw;
 }
 
 @keyframes float {
@@ -176,7 +177,7 @@ body {
 /* Mobile layout */
 @media (max-width: 768px) {
   .valentine-btn.yes {
-    top: 15%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%) scale(var(--btn-scale));
   }
@@ -186,7 +187,7 @@ body {
   }
 
   .valentine-btn.no {
-    bottom: 15%;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%) scale(var(--btn-scale));
   }
